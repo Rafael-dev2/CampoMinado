@@ -10,7 +10,7 @@
     margin: 25px;
     width: 250px;
     border: 1vw solid black;
-    height: 960px;
+    height: 720px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     border-radius: 5px;
     color: red;
@@ -22,8 +22,8 @@
     justify-content: center;
     display: flex;
     background-color: cadetblue;
-    height: 960px;
-    width: 960px;
+    height: 720px;
+    width: 720px;
     border: 1vw solid;
     border-radius: 5px;
 }
