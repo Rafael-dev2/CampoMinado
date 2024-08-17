@@ -4,12 +4,17 @@ deletebtn = document.querySelector("#deletebtn");
 let redPixel = "background-color: red;display: inline-flex;align-self: center;border: 1px solid gray;box-sizing: border-box;";
 let whitePixel = "background-color: white;display: inline-flex;align-self: center;border: 1px solid gray;box-sizing: border-box;";
 let input;
+let hasCanvas = false;
 createbtn.addEventListener("click",() => {
     input = prompt("How many squares?");
     if(input > 100){
         input = 100;
     }
+    if (hasCanvas === true){
+        document.querySelector("#subcanvas").remove();
+    }
     generateCanvas(input);
+    hasCanvas = true;
 })
 deletebtn.addEventListener("click",() =>{
     document.querySelector("#subcanvas").remove();
