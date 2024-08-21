@@ -43,4 +43,8 @@
     color: white;
     margin: 20px;
 }
-
+#pixel{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -50,17 +50,21 @@ function countMines(posx,posy){
     i = -1;
     j = -1;
     let pixel;
+    let targetPosX;
+    let targetPosY;
     while (i < 2) {
-        if(posx+i < 0 || i == 0){
+        if(posx+i < 0){
             i += 1;
             continue;
         }
         while (j < 2) {
-            if(posy+j < 0  || j == 0){
+            if(posy+j < 0){
                 j += 1;
                 continue;
             }
-            pixel = locatePixel(posy + i, posx + j);
+            targetPosX = posx + j;
+            targetPosY = posy + i;
+            pixel = locatePixel(targetPosX, targetPosY);
             if(pixel !== -1){
                 if (pixel.getAttribute("hasMine") === "true") {
                     sum += 1;
@@ -70,9 +74,40 @@ function countMines(posx,posy){
         j = -1;
         i += 1;
     }
+    let itself = locatePixel(posx,posy);
+    if(itself.getAttribute("hasMine") === "true"){
+        sum -= 1;
+    }
     return sum;
 }
-
+function recursiveClick(posx,posy){
+        i = -1;
+        j = -1;
+        let pixel;
+        let targetPosX;
+        let targetPosY;
+        while (i < 2) {
+            if(posx+i < 0){
+                i += 1;
+                continue;
+            }
+            while (j < 2) {
+                if(posy+j < 0){
+                    j += 1;
+                    continue;
+                }
+                targetPosX = posx + j;
+                targetPosY = posy + i;
+                pixel = locatePixel(targetPosX, targetPosY);
+                if(pixel !== -1){
+                    pixel.click();
+                }
+                j += 1;
+            }
+            j = -1;
+            i += 1;
+        }
+}
 size = 720/input;
 str = size.toString();
 pixelSize = "width:"+str+"px;"+"height:"+str+"px;";
@@ -90,7 +125,7 @@ for(i = 0;i < input;i++){
         }
         pixel.setAttribute("posx",j.toString());
         pixel.textContent = "?";
-        pixel.addEventListener("click",() => {
+        pixel.addEventListener("click",function playerClick() {
             positionX = parseInt(pixel.getAttribute("posx"));
             positionY = parseInt(pixel.parentElement.getAttribute("posy"));
             if(pixel.getAttribute("hasMine") == "true"){
@@ -99,6 +134,10 @@ for(i = 0;i < input;i++){
             }else{paintPixel(positionX,positionY,redPixel);}
             sum = countMines(positionX,positionY);
             pixel.textContent = sum.toString();
+            if(sum == 0){
+                recursiveClick(positionX,positionY);
+            }
+            pixel.removeEventListener("click",playerClick);
         })
         line.appendChild(pixel);
 }
