@@ -9,11 +9,11 @@ let input;
 let numberMines;
 let hasCanvas = false;
 createbtn.addEventListener("click",() => {
-    input = prompt("How many squares?");
+    input = prompt("Digite o tamanho da linha");
     if(input > 100){
         input = 100;
     }
-    numberMines = prompt("How many mines");
+    numberMines = prompt("Digite a porcentagem de bombas");
     if(input > 50){
         numberMines = 50;
     }
@@ -21,7 +21,7 @@ createbtn.addEventListener("click",() => {
         document.querySelector("#subcanvas").remove();
     }
     generateCanvas(input);
-    hasCanvas = true;
+   // hasCanvas = true;
 })
 deletebtn.addEventListener("click",() =>{
     document.querySelector("#subcanvas").remove();
@@ -56,13 +56,13 @@ function countMines(posx,posy){
             continue;
         }
         while (j < 2) {
-            if(posy+j < 0  || posy+j == 0){
+            if(posy+j < 0  || j == 0){
                 j += 1;
                 continue;
             }
-            pixel = locatePixel(posx + i, posy + j);
-            if(pixel != -1){
-                if (pixel.getAttribute("hasMine", "true")) {
+            pixel = locatePixel(posy + i, posx + j);
+            if(pixel !== -1){
+                if (pixel.getAttribute("hasMine") === "true") {
                     sum += 1;
             }   }
             j += 1;
@@ -94,9 +94,11 @@ for(i = 0;i < input;i++){
             positionX = parseInt(pixel.getAttribute("posx"));
             positionY = parseInt(pixel.parentElement.getAttribute("posy"));
             if(pixel.getAttribute("hasMine") == "true"){
+                alert("Você Explodiu!");
                 paintPixel(positionX,positionY,greenPixel);
             }else{paintPixel(positionX,positionY,redPixel);}
-            pixel.textContent = countMines(positionX,positionY).toString();
+            sum = countMines(positionX,positionY);
+            pixel.textContent = sum.toString();
         })
         line.appendChild(pixel);
 }
