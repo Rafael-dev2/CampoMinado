@@ -7,10 +7,13 @@
     background-color: cadetblue;
     display: flex;
     flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
     margin: 25px;
     width: 250px;
     border: 1vw solid black;
-    height: 720px;
+    height: 80vh;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     border-radius: 5px;
     color: red;
@@ -22,8 +25,8 @@
     justify-content: center;
     display: flex;
     background-color: cadetblue;
-    height: 720px;
-    width: 720px;
+    height: 80vh;
+    width: 80vh;
     border: 1vw solid;
     border-radius: 5px;
 }
