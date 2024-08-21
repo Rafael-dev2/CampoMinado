@@ -11,7 +11,7 @@ let ratioMines;
 let numberMines = 0;
 let hasCanvas = false;
 createbtn.addEventListener("click",() => {
-    input = prompt("Digite o tamanho da linha");
+    input = prompt("Digite o tamanho do tabuleiro");
     if(input > 100){
         input = 100;
     }
