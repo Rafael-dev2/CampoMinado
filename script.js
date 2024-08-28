@@ -32,22 +32,22 @@ deletebtn.addEventListener("click",() =>{
 })
 
 function generateCanvas(input){
-subcanvas = document.createElement("div");
+subcanvas = document.createElement("table");
 subcanvas.setAttribute("id","subcanvas");
 difficultySelector = document.querySelector("#difficulty");
 difficulty = difficultySelector.options[difficultySelector.selectedIndex].text;
 console.log(difficulty);
 switch (difficulty) {
     case "Fácil":
-        input = 10;
+        input = 6;
         ratioMines = 5;
         break;
     case "Normal":
-        input = 20;
+        input = 15;
         ratioMines = 10;
         break;
     case "Difícil":
-        input = 40;
+        input = 25;
         ratioMines = 15;
         break;
 }
@@ -59,12 +59,12 @@ if(difficulty === "Selecionar a dificuldade"){
     alert("Escolha uma dificuldade");
 }else{
 for(i = 0;i < input;i++){
-    let line = document.createElement("div");
+    let line = document.createElement("tr");
     line.setAttribute("id","line")
     line.setAttribute("style",lineStyle + "height:"+size+"vh;");
     line.setAttribute("posy",i.toString());
     for(j = 0;j < input;j++){
-        let pixel = document.createElement("div");
+        let pixel = document.createElement("td");
         pixel.setAttribute("style",whitePixel+pixelSize);
         pixel.setAttribute("id","pixel");
         if(Math.floor(Math.random() * 100) <= ratioMines){
@@ -82,6 +82,7 @@ for(i = 0;i < input;i++){
                     alert("Você Explodiu!");
                     gameOver = true;
                     gameState = "lose";
+
                     revealMap();
                 }
                 paintPixel(positionX,positionY,redPixel);
@@ -184,9 +185,9 @@ function locatePixel(posx,posy){
     lineSize = parseInt(lineSize);
     console.log(posx+" "+lineSize);
     if(posx >= 0 && posy >= 0 && posx < lineSize && posy < lineSize){
-        finder = 'div[posy="'+posy+'"]';
+        finder = 'tr[posy="'+posy+'"]';
         let targetLine = document.querySelector(finder);
-        finder = 'div[posx="'+posx+'"]';
+        finder = 'td[posx="'+posx+'"]';
         return targetLine.querySelector(finder);
     }
     return -1;
