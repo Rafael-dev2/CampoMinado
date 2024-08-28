@@ -46,6 +46,14 @@
     color: white;
     margin: 20px;
 }
+#difficulty{
+    background: mediumblue;
+    padding: 10px;
+    border-radius: 15px;
+    border-color: mediumblue;
+    color: white;
+    margin: 20px;
+}
 #pixel{
     display: flex;
     justify-content: center;

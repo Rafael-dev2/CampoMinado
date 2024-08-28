@@ -6,12 +6,13 @@ const whitePixel = "font-weight: bold;background-color: white;display: inline-fl
 const greenPixel = "font-weight: bold;color: white;background-color: green;display: inline-flex;align-self: center;border: 1px solid gray;box-sizing: border-box;";
 const bluePixel = "font-weight: bold;color: white;background-color: blue;display: inline-flex;align-self: center;border: 1px solid gray;box-sizing: border-box;";
 let lineStyle = "font-size: 16px;";
-let input;
-let ratioMines;
+var input = 0;
+var ratioMines = 0;
 let numberMines = 0;
 let textNumberMines = 0;
 let hasCanvas = false;
 let gameState = "start";
+let difficulty = "none";
 let gameOver = false;
 createbtn.addEventListener("click",() => {
     if (gameState === "playing" || gameState === "win" || gameState === "lose") {
@@ -19,19 +20,11 @@ createbtn.addEventListener("click",() => {
         textNumberMines = 0;
         document.querySelector("#score").remove();
     }
-    input = prompt("Digite o tamanho do tabuleiro");
-    if(input > 100){
-        input = 100;
-    }
-    ratioMines = prompt("Digite a porcentagem de bombas\n 5% - Fácil, 10% - Médio, 20% - Difícil");
-    if(ratioMines > 50){
-        ratioMines = 50;
-    }
     if (hasCanvas === true){
         document.querySelector("#subcanvas").remove();
     }
     generateCanvas(input);
-    hasCanvas = true;
+
 })
 deletebtn.addEventListener("click",() =>{
     document.querySelector("#subcanvas").remove();
@@ -41,11 +34,30 @@ deletebtn.addEventListener("click",() =>{
 function generateCanvas(input){
 subcanvas = document.createElement("div");
 subcanvas.setAttribute("id","subcanvas");
+difficultySelector = document.querySelector("#difficulty");
+difficulty = difficultySelector.options[difficultySelector.selectedIndex].text;
+console.log(difficulty);
+switch (difficulty) {
+    case "Fácil":
+        input = 10;
+        ratioMines = 5;
+        break;
+    case "Normal":
+        input = 20;
+        ratioMines = 10;
+        break;
+    case "Difícil":
+        input = 40;
+        ratioMines = 15;
+        break;
+}
 size = 80/input;
 str = size.toString();
 lineStyle = "font-size: "+size/2+"vh;"
 pixelSize = "width:"+str+"vh;"+"height:"+str+"vh;";
-gameState = "playing";
+if(difficulty === "Selecionar a dificuldade"){
+    alert("Escolha uma dificuldade");
+}else{
 for(i = 0;i < input;i++){
     let line = document.createElement("div");
     line.setAttribute("id","line")
@@ -115,6 +127,9 @@ for(i = 0;i < input;i++){
 }
     textNumberMines = numberMines;
     generateScore();
+    gameState = "playing";
+    hasCanvas = true;
+}
 }
 function countMines(posx,posy){
     let sum = 0;
@@ -165,7 +180,10 @@ function generateScore(){
     sidebar.appendChild(score);
 }
 function locatePixel(posx,posy){
-    if(posx >= 0 && posy >= 0 && posx < input && posy < input){
+    lineSize = difficultySelector.options[difficultySelector.selectedIndex].id;
+    lineSize = parseInt(lineSize);
+    console.log(posx+" "+lineSize);
+    if(posx >= 0 && posy >= 0 && posx < lineSize && posy < lineSize){
         finder = 'div[posy="'+posy+'"]';
         let targetLine = document.querySelector(finder);
         finder = 'div[posx="'+posx+'"]';
@@ -174,7 +192,8 @@ function locatePixel(posx,posy){
     return -1;
 }
 function paintPixel(posx,posy,color){
-    pixel = locatePixel(posx,posy);
+    let pixel = locatePixel(posx,posy);
+    console.log(pixel);
     pixel.setAttribute("style",color+pixelSize);
 }
 function revealMap(){
