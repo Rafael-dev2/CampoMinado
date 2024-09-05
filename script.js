@@ -32,22 +32,22 @@ deletebtn.addEventListener("click",() =>{
 })
 
 function generateCanvas(input){
-subcanvas = document.createElement("div");
+subcanvas = document.createElement("table");
 subcanvas.setAttribute("id","subcanvas");
 difficultySelector = document.querySelector("#difficulty");
 difficulty = difficultySelector.options[difficultySelector.selectedIndex].text;
 console.log(difficulty);
 switch (difficulty) {
     case "Fácil":
-        input = 10;
+        input = 6;
         ratioMines = 5;
         break;
     case "Normal":
-        input = 20;
+        input = 15;
         ratioMines = 10;
         break;
     case "Difícil":
-        input = 40;
+        input = 25;
         ratioMines = 15;
         break;
 }
@@ -59,12 +59,12 @@ if(difficulty === "Selecionar a dificuldade"){
     alert("Escolha uma dificuldade");
 }else{
 for(i = 0;i < input;i++){
-    let line = document.createElement("div");
+    let line = document.createElement("tr");
     line.setAttribute("id","line")
     line.setAttribute("style",lineStyle + "height:"+size+"vh;");
     line.setAttribute("posy",i.toString());
     for(j = 0;j < input;j++){
-        let pixel = document.createElement("div");
+        let pixel = document.createElement("td");
         pixel.setAttribute("style",whitePixel+pixelSize);
         pixel.setAttribute("id","pixel");
         if(Math.floor(Math.random() * 100) <= ratioMines){
@@ -77,16 +77,26 @@ for(i = 0;i < input;i++){
         pixel.addEventListener("click",function playerClick() {
             positionX = parseInt(pixel.getAttribute("posx"));
             positionY = parseInt(pixel.parentElement.getAttribute("posy"));
-            if(pixel.getAttribute("hasMine") === "true"){
-                if(gameOver === false){
+            let bombSize;
+            let mine;
+            if (pixel.getAttribute("hasMine") === "true") {
+                if (gameOver === false) {
                     alert("Você Explodiu!");
                     gameOver = true;
                     gameState = "lose";
                     revealMap();
                 }
-                paintPixel(positionX,positionY,redPixel);
-                pixel.textContent = "!";
-            }else{paintPixel(positionX,positionY,bluePixel);
+                paintPixel(positionX, positionY, redPixel);
+                pixel.textContent = "";
+                mine = document.createElement("img");
+                bsize = getLineSize();
+                bombSize = 80 / bsize - 3;
+                mine.setAttribute("src", "mina.svg");
+                mine.setAttribute("style", "witdh:" + bombSize + "vh;" + "height:" + bombSize + "vh;");
+                pixel.appendChild(mine);
+
+            } else {
+                paintPixel(positionX, positionY, bluePixel);
             }
             sum = countMines(positionX,positionY);
             if(pixel.getAttribute("hasMine") !== "true") {
@@ -106,7 +116,14 @@ for(i = 0;i < input;i++){
             }
                 textNumberMines -= 1;
                 paintPixel(positionX,positionY,greenPixel);
-                pixel.textContent = "V";
+                pixel.textContent = "";
+                flag = document.createElement("img");
+                fsize = getLineSize();
+                flagSize = 80 / fsize - 3;
+                flag.setAttribute("src", "flag.svg");
+                flag.setAttribute("style", "witdh:" + flagSize + "vh;" + "height:" + flagSize + "vh;");
+                pixel.appendChild(flag);
+
                 if(numberMines === 0){
                     alert("Você Venceu!");
                     gameState = "win";
@@ -172,6 +189,11 @@ function recursiveClick(posx,posy){
         }
     }
 }
+function getLineSize(){
+    lineSize = difficultySelector.options[difficultySelector.selectedIndex].id;
+    lineSize = parseInt(lineSize);
+    return lineSize;
+}
 function generateScore(){
     sidebar = document.querySelector("#Sidebar");
     score = document.createElement("div");
@@ -180,13 +202,12 @@ function generateScore(){
     sidebar.appendChild(score);
 }
 function locatePixel(posx,posy){
-    lineSize = difficultySelector.options[difficultySelector.selectedIndex].id;
-    lineSize = parseInt(lineSize);
+    lineSize = getLineSize();
     console.log(posx+" "+lineSize);
     if(posx >= 0 && posy >= 0 && posx < lineSize && posy < lineSize){
-        finder = 'div[posy="'+posy+'"]';
+        finder = 'tr[posy="'+posy+'"]';
         let targetLine = document.querySelector(finder);
-        finder = 'div[posx="'+posx+'"]';
+        finder = 'td[posx="'+posx+'"]';
         return targetLine.querySelector(finder);
     }
     return -1;
@@ -197,8 +218,8 @@ function paintPixel(posx,posy,color){
     pixel.setAttribute("style",color+pixelSize);
 }
 function revealMap(){
-    for(let i = 0; i < input; i++){
-        for(let j = 0; j < input; j++){
+    for(let i = 0; i < getLineSize(); i++){
+        for(let j = 0; j < getLineSize(); j++){
             pixel = locatePixel(i,j);
             if(gameState == "lose"){
                 pixel.click();
