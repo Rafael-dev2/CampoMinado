@@ -10,7 +10,8 @@
     background-image: url("./imgs/background.png");
     background-position: center;
     background-size: 125vw 125vh;
-    gap: 1em
+    gap: 1em;
+    margin: 0;
 }
 h1, h2, h3{
     font-family: pixelFont;
@@ -51,7 +52,6 @@ h1, h2, h3{
     flex-direction: column;
     align-content: center;
     align-items: center;
-    justify-content: center;
 }
 #infoPanel{
     background-color: rgba(0, 0, 0, 0.35);
@@ -59,10 +59,11 @@ h1, h2, h3{
     border-radius: 1em;
     color: white;
     justify-content: left;
-    width: 15em
+    width: 17em;
 }
 #infoPanel h3{
     margin-left: 1em;
+    
 }
 #deletebtn{
     background: mediumblue;
