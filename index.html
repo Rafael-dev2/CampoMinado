@@ -7,22 +7,26 @@
 </head>
 <link rel="stylesheet" href="style.css">
 <body id="body">
-    <div id="Sidebar">
-        <h1>Campo Minado</h1>
-        <button id = "topbtn">Começar Jogo</button>
-        <button id = "deletebtn">Deletar Campo</button>
-        <select id="difficulty">
-            <optgroup label="Dificuldade">
-                <option>Selecionar a dificuldade</option>
-                <option id ="6">Fácil</option>
-                <option id ="15">Normal</option>
-                <option id ="25">Difícil</option>
-            </optgroup>
-        </select>
+    <div id="sideBar">
+        <h2 style="margin-top: 1.2em;">Modo Rivotril</h2>
+        <h2 id="trapaça">Ativar Trapaça <br>
+        <img src="imgs/lampada.png" style="align-self: center;"></h2>
+        <button id="returnButton" style="margin-top: 3em;">Back</button>
     </div>
-    <div id = "Sketch">
-
+    <div id = "middleBar">
+        <h1>Bomb Hunter</h1>
+        <div id ="sketch">
+            <img src="./imgs/campo.png">
+        </div>
+    </div>
+    <div id="rightBar">
+        <div id="infoPanel">
+            <h3>15:00 Restantes</h2>
+            <h3>Tamanho: 10X10</h2>
+            <h3>N° de bombas: 20</h2>
+        </div>
+        <img src="imgs/BombMan.png">
+        <h3 id="comoJogar" style="color: white">como jogar</h2>
     </div>
 </body>
-<script src="script.js"></script>
 </html>
